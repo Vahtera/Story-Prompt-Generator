@@ -76,12 +76,12 @@ namespace Story_Prompt_Generator
         }
         private void InitPicBoxes()
         {
-            pBoxList.Clear();
-            LabelList.Clear();
+            //pBoxList.Clear();
+            //LabelList.Clear();
             pBoxHeight = LabelWidth - 2;
             pBoxWidth = LabelWidth - 2;
 
-            for (int i = 0; i < udNumPicBoxes.Value; i++)
+            while (pBoxList.Count < udNumPicBoxes.Value)
             {
                 var pictureBox = new PictureBox();
                 var label = new Label();
