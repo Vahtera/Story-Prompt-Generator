@@ -144,6 +144,7 @@ namespace Story_Prompt_Generator
             }
             Height = LabelWidth + 120;
             Width = pBoxList[pBoxList.Count - 1].Left + LabelWidth + 20;
+            pnlImage.Size = new Size(Width - 440, 54);
         }
 
         private void InitPicBoxes(int num)
@@ -253,6 +254,7 @@ namespace Story_Prompt_Generator
         {
             InitPicBoxes((int)udNumPicBoxes.Value);
             SetImages();
+            label1.BackColor = System.Drawing.Color.Transparent;
             lblVersion.Text = VERSION;
             Size = new Size(854, 319);
         }
@@ -329,6 +331,11 @@ namespace Story_Prompt_Generator
                 SizeBoxes();
             }
             SetImages();
+        }
+
+        private void Form1_ResizeEnd(object sender, EventArgs e)
+        {
+            
         }
     }
 }

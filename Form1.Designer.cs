@@ -38,7 +38,9 @@
             chkAnimate = new CheckBox();
             udNumPicBoxes = new NumericUpDown();
             label3 = new Label();
+            pnlImage = new Panel();
             ((System.ComponentModel.ISupportInitialize)udNumPicBoxes).BeginInit();
+            pnlImage.SuspendLayout();
             SuspendLayout();
             // 
             // btnRoll
@@ -77,8 +79,10 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(418, 14);
+            label1.ForeColor = SystemColors.ControlText;
+            label1.Location = new Point(3, 0);
             label1.Name = "label1";
             label1.Size = new Size(160, 17);
             label1.TabIndex = 7;
@@ -87,7 +91,9 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(418, 34);
+            label2.BackColor = Color.Transparent;
+            label2.ForeColor = SystemColors.ControlText;
+            label2.Location = new Point(3, 20);
             label2.Name = "label2";
             label2.Size = new Size(174, 15);
             label2.TabIndex = 8;
@@ -96,10 +102,12 @@
             // lblVersion
             // 
             lblVersion.AutoSize = true;
-            lblVersion.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblVersion.Location = new Point(418, 49);
+            lblVersion.BackColor = Color.Transparent;
+            lblVersion.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblVersion.ForeColor = SystemColors.ControlText;
+            lblVersion.Location = new Point(3, 35);
             lblVersion.Name = "lblVersion";
-            lblVersion.Size = new Size(45, 13);
+            lblVersion.Size = new Size(44, 13);
             lblVersion.TabIndex = 9;
             lblVersion.Text = "Version";
             // 
@@ -133,17 +141,28 @@
             label3.TabIndex = 16;
             label3.Text = "# of Pictures";
             // 
+            // pnlImage
+            // 
+            pnlImage.BackgroundImage = Properties.Resources.strip3;
+            pnlImage.BackgroundImageLayout = ImageLayout.Center;
+            pnlImage.BorderStyle = BorderStyle.FixedSingle;
+            pnlImage.Controls.Add(label1);
+            pnlImage.Controls.Add(lblVersion);
+            pnlImage.Controls.Add(label2);
+            pnlImage.Location = new Point(418, 12);
+            pnlImage.Name = "pnlImage";
+            pnlImage.Size = new Size(552, 54);
+            pnlImage.TabIndex = 17;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(982, 281);
+            Controls.Add(pnlImage);
             Controls.Add(label3);
             Controls.Add(udNumPicBoxes);
             Controls.Add(chkAnimate);
-            Controls.Add(lblVersion);
-            Controls.Add(label2);
-            Controls.Add(label1);
             Controls.Add(btnShuffle);
             Controls.Add(btnQuit);
             Controls.Add(btnRoll);
@@ -151,7 +170,10 @@
             Name = "Form1";
             Text = "Story Prompt Generator";
             Load += Form1_Load;
+            ResizeEnd += Form1_ResizeEnd;
             ((System.ComponentModel.ISupportInitialize)udNumPicBoxes).EndInit();
+            pnlImage.ResumeLayout(false);
+            pnlImage.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -167,5 +189,6 @@
         private CheckBox chkAnimate;
         private NumericUpDown udNumPicBoxes;
         private Label label3;
+        private Panel pnlImage;
     }
 }
