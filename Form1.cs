@@ -9,7 +9,9 @@
  * Version 0.2: Added "rolling" animation when randomizing results.
  * Version 0.2.1: Disabled roll button while animations are running to prevent double.images.
  * Version 0.3: Added disposing of images and fixed memory leak by initiating main images list only once.
- * Revision 0.3 Version x: Added versioning from GitHub commits. 
+ * Revision 0.3: Added versioning from GitHub commits. 
+ * Revision 0.4: Added animation to Shuffle.
+ * Revision 0.5: Changed Shuffle animation into a much smoother and better one. 
  * 
  */
 
@@ -23,7 +25,7 @@ namespace Story_Prompt_Generator
     {
         List<Image> images = new List<Image>();
         List<Image> imgList = new List<Image>();
-        string[] REVISION = { "0.3", $"{CommitInfo.CommitCount}" };
+        string[] REVISION = { "0.5", $"{CommitInfo.CommitCount}" };
         string VERSION => String.Format("Revision {0} Version {1}", REVISION);
 
         public Form1()
@@ -38,21 +40,6 @@ namespace Story_Prompt_Generator
         private void btnQuit_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-        private async Task ShrinkGrow(Control ctrl)
-        {
-            int origHeight = ctrl.Height;
-            for (int i = origHeight; i > 0; i -= 15)
-            {
-                ctrl.Height = i;
-                await Task.Delay(1);
-            }
-            for (int i = 0; i < origHeight; i += 15)
-            {
-                ctrl.Height = i;
-                await Task.Delay(1);
-            }
-            ctrl.Height = origHeight;
         }
         private void InitImages()
         {
@@ -128,30 +115,31 @@ namespace Story_Prompt_Generator
 
             if (shuffledimages.Count >= 4)
             {
-                picOne.BackgroundImage = null;
-                picTwo.BackgroundImage = null;
-                picThree.BackgroundImage = null;
-                picFour.BackgroundImage = null;
 
-                //DisposeImages();
                 if (chkAnimate.Checked)
                 {
                     await Task.WhenAll(
-                        ShrinkGrow(picOne),
-                        ShrinkGrow(picTwo),
-                        ShrinkGrow(picThree),
-                        ShrinkGrow(picFour)
+                        ZoomInOut(picOne, shuffledimages[0]),
+                        ZoomInOut(picTwo, shuffledimages[1]),
+                        ZoomInOut(picThree, shuffledimages[2]),
+                        ZoomInOut(picFour, shuffledimages[3])
                     );
                 }
+                else
+                {
+                    picOne.BackgroundImage = null;
+                    picTwo.BackgroundImage = null;
+                    picThree.BackgroundImage = null;
+                    picFour.BackgroundImage = null;
 
-                picOne.BackgroundImage = shuffledimages[0];
-                picTwo.BackgroundImage = shuffledimages[1];
-                picThree.BackgroundImage = shuffledimages[2];
-                picFour.BackgroundImage = shuffledimages[3];
+                    picOne.BackgroundImage = shuffledimages[0];
+                    picTwo.BackgroundImage = shuffledimages[1];
+                    picThree.BackgroundImage = shuffledimages[2];
+                    picFour.BackgroundImage = shuffledimages[3];
+                }
 
                 shuffledimages.Clear();
                 pics.Clear();
-
                 btnShuffle.Enabled = true;
             }
 
@@ -177,6 +165,21 @@ namespace Story_Prompt_Generator
         {
             SetImages();
             lblVersion.Text = VERSION;
+            Size = new Size(854, 319);
+            
+            picOne.Left = lblPicOne.Left + 1;
+            picOne.Top = lblPicOne.Top + 1;
+            picTwo.Left = lblPicTwo.Left + 1;
+            picTwo.Top = lblPicTwo.Top +1;
+            picThree.Left = lblPicThree.Left + 1;
+            picThree.Top = lblPicThree.Top + 1;
+            picFour.Left = lblPicFour.Left + 1;
+            picFour.Top = lblPicFour.Top + 1;
+            picOne.Size = new Size(198, 198);
+            picTwo.Size = new Size(198, 198);
+            picThree.Size = new Size(198, 198);
+            picFour.Size = new Size(198, 198);
+
         }
 
         private void btnRoll_Click(object sender, EventArgs e)
@@ -187,15 +190,58 @@ namespace Story_Prompt_Generator
         {
             btnRoll.BackgroundImage?.Dispose();
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_down;
+        }        
+        private void DisposeImage(Image image)
+        {
+            try
+            {
+                image?.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // Log or handle the exception if needed
+            }
+        }
+        private async Task ZoomInOut(PictureBox pic, Image img)
+        {
+            int zoomFactor = 16;
+            int speed = 10;
+            int origWidth = pic.Width;
+            int origHeight = pic.Height;
+            int origLeft = pic.Left;
+            int origTop = pic.Top;
+
+            
+
+            // Zoom out
+            for (int i = 0; i < zoomFactor; i++)
+            {
+                pic.Width -= speed;
+                pic.Height -= speed;
+                pic.Left += speed / 2;
+                pic.Top += speed / 2;
+                await Task.Delay(10);
+            }
+
+            pic.BackgroundImage = img;
+
+            // Zoom in
+            for (int i = 0; i < zoomFactor; i++)
+            {
+                pic.Width += speed;
+                pic.Height += speed;
+                pic.Left -= speed / 2;
+                pic.Top -= speed / 2;
+                await Task.Delay(10);
+            }
+
+            // Restore original size and position
+            pic.Width = origWidth;
+            pic.Height = origHeight;
+            pic.Left = origLeft;
+            pic.Top = origTop;
         }
 
-        private void DisposeImages()
-        {
-            picOne.BackgroundImage?.Dispose();
-            picTwo.BackgroundImage?.Dispose();
-            picThree.BackgroundImage?.Dispose();
-            picFour.BackgroundImage?.Dispose();
-        }
         private void btnShuffle_Click(object sender, EventArgs e)
         {
             FlipFlip();
