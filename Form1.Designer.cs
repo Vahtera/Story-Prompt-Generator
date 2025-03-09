@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             btnRoll = new Button();
             btnQuit = new Button();
             picOne = new PictureBox();
@@ -176,6 +177,7 @@
             Controls.Add(picOne);
             Controls.Add(btnQuit);
             Controls.Add(btnRoll);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "Story Prompt Generator";
             Load += Form1_Load;
