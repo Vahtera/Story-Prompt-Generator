@@ -39,6 +39,21 @@ namespace Story_Prompt_Generator
         {
             Application.Exit();
         }
+        private async Task ShrinkGrow(Control ctrl)
+        {
+            int origHeight = ctrl.Height;
+            for (int i = origHeight; i > 0; i -= 15)
+            {
+                ctrl.Height = i;
+                await Task.Delay(1);
+            }
+            for (int i = 0; i < origHeight; i += 15)
+            {
+                ctrl.Height = i;
+                await Task.Delay(1);
+            }
+            ctrl.Height = origHeight;
+        }
         private void InitImages()
         {
             imgList.Clear();
@@ -94,6 +109,53 @@ namespace Story_Prompt_Generator
             }
             pBox.Image = null;
         }
+        private async void FlipFlip()
+        {
+            btnShuffle.Enabled = false;
+            List<Image> pics = new List<Image>();
+            Random random = new Random();
+
+            if (picOne.BackgroundImage != null)
+                pics.Add(picOne.BackgroundImage);
+            if (picTwo.BackgroundImage != null)
+                pics.Add(picTwo.BackgroundImage);
+            if (picThree.BackgroundImage != null)
+                pics.Add(picThree.BackgroundImage);
+            if (picFour.BackgroundImage != null)
+                pics.Add(picFour.BackgroundImage);
+
+            var shuffledimages = pics.OrderBy(_ => random.Next()).ToList();
+
+            if (shuffledimages.Count >= 4)
+            {
+                picOne.BackgroundImage = null;
+                picTwo.BackgroundImage = null;
+                picThree.BackgroundImage = null;
+                picFour.BackgroundImage = null;
+
+                //DisposeImages();
+                if (chkAnimate.Checked)
+                {
+                    await Task.WhenAll(
+                        ShrinkGrow(picOne),
+                        ShrinkGrow(picTwo),
+                        ShrinkGrow(picThree),
+                        ShrinkGrow(picFour)
+                    );
+                }
+
+                picOne.BackgroundImage = shuffledimages[0];
+                picTwo.BackgroundImage = shuffledimages[1];
+                picThree.BackgroundImage = shuffledimages[2];
+                picFour.BackgroundImage = shuffledimages[3];
+
+                shuffledimages.Clear();
+                pics.Clear();
+
+                btnShuffle.Enabled = true;
+            }
+
+        }
         private async void SetImages()
         {
             btnRoll.Enabled = false;
@@ -136,34 +198,7 @@ namespace Story_Prompt_Generator
         }
         private void btnShuffle_Click(object sender, EventArgs e)
         {
-            btnShuffle.Enabled = false;
-            List<Image> pics = new List<Image>();
-            Random random = new Random();
-
-            if (picOne.BackgroundImage != null)
-                pics.Add(picOne.BackgroundImage);
-            if (picTwo.BackgroundImage != null)
-                pics.Add(picTwo.BackgroundImage);
-            if (picThree.BackgroundImage != null)
-                pics.Add(picThree.BackgroundImage);
-            if (picFour.BackgroundImage != null)
-                pics.Add(picFour.BackgroundImage);
-
-            var shuffledimages = pics.OrderBy(_ => random.Next()).ToList();
-
-            if (shuffledimages.Count >= 4)
-            {
-                //DisposeImages();
-                picOne.BackgroundImage = shuffledimages[0];
-                picTwo.BackgroundImage = shuffledimages[1];
-                picThree.BackgroundImage = shuffledimages[2];
-                picFour.BackgroundImage = shuffledimages[3];
-            }
-            
-            shuffledimages.Clear();
-            pics.Clear();
-
-            btnShuffle.Enabled = true;
+            FlipFlip();
         }
     }
 }

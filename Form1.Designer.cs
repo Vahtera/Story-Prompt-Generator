@@ -72,7 +72,7 @@
             // picOne
             // 
             picOne.BackColor = SystemColors.Window;
-            picOne.BackgroundImage = Properties.Resources._001;
+            picOne.BackgroundImage = Properties.Resources._019;
             picOne.BorderStyle = BorderStyle.FixedSingle;
             picOne.Location = new Point(12, 72);
             picOne.Name = "picOne";
@@ -83,6 +83,7 @@
             // picTwo
             // 
             picTwo.BackColor = SystemColors.Window;
+            picTwo.BackgroundImage = Properties.Resources._009;
             picTwo.BorderStyle = BorderStyle.FixedSingle;
             picTwo.Location = new Point(218, 72);
             picTwo.Name = "picTwo";
@@ -93,6 +94,7 @@
             // picThree
             // 
             picThree.BackColor = SystemColors.Window;
+            picThree.BackgroundImage = Properties.Resources._003;
             picThree.BorderStyle = BorderStyle.FixedSingle;
             picThree.Location = new Point(424, 72);
             picThree.Name = "picThree";
@@ -103,6 +105,7 @@
             // picFour
             // 
             picFour.BackColor = SystemColors.Window;
+            picFour.BackgroundImage = Properties.Resources._002;
             picFour.BorderStyle = BorderStyle.FixedSingle;
             picFour.Location = new Point(630, 72);
             picFour.Name = "picFour";
