@@ -230,6 +230,7 @@ namespace Story_Prompt_Generator
         private async void SetImages()
         {
             btnRoll.Enabled = false;
+            udNumPicBoxes.Enabled = false;
             btnRoll.BackgroundImage?.Dispose();
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_disabled;
 
@@ -243,6 +244,7 @@ namespace Story_Prompt_Generator
             await Task.WhenAll(tasks);
 
             btnRoll.Enabled = true;
+            udNumPicBoxes.Enabled = true;
             btnRoll.BackgroundImage?.Dispose();
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_up;
         }
