@@ -31,23 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             btnRoll = new Button();
             btnQuit = new Button();
-            picOne = new PictureBox();
-            picTwo = new PictureBox();
-            picThree = new PictureBox();
-            picFour = new PictureBox();
             btnShuffle = new Button();
             label1 = new Label();
             label2 = new Label();
             lblVersion = new Label();
             chkAnimate = new CheckBox();
-            lblPicOne = new Label();
-            lblPicTwo = new Label();
-            lblPicThree = new Label();
-            lblPicFour = new Label();
-            ((System.ComponentModel.ISupportInitialize)picOne).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picTwo).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picThree).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picFour).BeginInit();
+            udNumPicBoxes = new NumericUpDown();
+            label3 = new Label();
+            ((System.ComponentModel.ISupportInitialize)udNumPicBoxes).BeginInit();
             SuspendLayout();
             // 
             // btnRoll
@@ -72,50 +63,6 @@
             btnQuit.Text = "Quit";
             btnQuit.UseVisualStyleBackColor = true;
             btnQuit.Click += btnQuit_Click;
-            // 
-            // picOne
-            // 
-            picOne.BackColor = SystemColors.Window;
-            picOne.BackgroundImage = Properties.Resources._019;
-            picOne.BackgroundImageLayout = ImageLayout.Zoom;
-            picOne.Location = new Point(12, 292);
-            picOne.Name = "picOne";
-            picOne.Size = new Size(200, 200);
-            picOne.TabIndex = 2;
-            picOne.TabStop = false;
-            // 
-            // picTwo
-            // 
-            picTwo.BackColor = SystemColors.Window;
-            picTwo.BackgroundImage = Properties.Resources._009;
-            picTwo.BackgroundImageLayout = ImageLayout.Zoom;
-            picTwo.Location = new Point(218, 292);
-            picTwo.Name = "picTwo";
-            picTwo.Size = new Size(200, 200);
-            picTwo.TabIndex = 3;
-            picTwo.TabStop = false;
-            // 
-            // picThree
-            // 
-            picThree.BackColor = SystemColors.Window;
-            picThree.BackgroundImage = Properties.Resources._003;
-            picThree.BackgroundImageLayout = ImageLayout.Zoom;
-            picThree.Location = new Point(424, 292);
-            picThree.Name = "picThree";
-            picThree.Size = new Size(200, 200);
-            picThree.TabIndex = 4;
-            picThree.TabStop = false;
-            // 
-            // picFour
-            // 
-            picFour.BackColor = SystemColors.Window;
-            picFour.BackgroundImage = Properties.Resources._002;
-            picFour.BackgroundImageLayout = ImageLayout.Zoom;
-            picFour.Location = new Point(630, 292);
-            picFour.Name = "picFour";
-            picFour.Size = new Size(200, 200);
-            picFour.TabIndex = 5;
-            picFour.TabStop = false;
             // 
             // btnShuffle
             // 
@@ -168,59 +115,30 @@
             chkAnimate.Text = "Use Animations";
             chkAnimate.UseVisualStyleBackColor = true;
             // 
-            // lblPicOne
+            // udNumPicBoxes
             // 
-            lblPicOne.BackColor = SystemColors.Window;
-            lblPicOne.BorderStyle = BorderStyle.FixedSingle;
-            lblPicOne.FlatStyle = FlatStyle.Flat;
-            lblPicOne.Location = new Point(12, 72);
-            lblPicOne.Name = "lblPicOne";
-            lblPicOne.Size = new Size(200, 200);
-            lblPicOne.TabIndex = 11;
+            udNumPicBoxes.Location = new Point(636, 43);
+            udNumPicBoxes.Name = "udNumPicBoxes";
+            udNumPicBoxes.Size = new Size(37, 23);
+            udNumPicBoxes.TabIndex = 15;
+            udNumPicBoxes.Value = new decimal(new int[] { 4, 0, 0, 0 });
             // 
-            // lblPicTwo
+            // label3
             // 
-            lblPicTwo.BackColor = SystemColors.Window;
-            lblPicTwo.BorderStyle = BorderStyle.FixedSingle;
-            lblPicTwo.FlatStyle = FlatStyle.Flat;
-            lblPicTwo.Location = new Point(218, 72);
-            lblPicTwo.Name = "lblPicTwo";
-            lblPicTwo.Size = new Size(200, 200);
-            lblPicTwo.TabIndex = 12;
-            // 
-            // lblPicThree
-            // 
-            lblPicThree.BackColor = SystemColors.Window;
-            lblPicThree.BorderStyle = BorderStyle.FixedSingle;
-            lblPicThree.FlatStyle = FlatStyle.Flat;
-            lblPicThree.Location = new Point(424, 72);
-            lblPicThree.Name = "lblPicThree";
-            lblPicThree.Size = new Size(200, 200);
-            lblPicThree.TabIndex = 13;
-            // 
-            // lblPicFour
-            // 
-            lblPicFour.BackColor = SystemColors.Window;
-            lblPicFour.BorderStyle = BorderStyle.FixedSingle;
-            lblPicFour.FlatStyle = FlatStyle.Flat;
-            lblPicFour.Location = new Point(630, 72);
-            lblPicFour.Name = "lblPicFour";
-            lblPicFour.Size = new Size(200, 200);
-            lblPicFour.TabIndex = 14;
+            label3.AutoSize = true;
+            label3.Location = new Point(679, 47);
+            label3.Name = "label3";
+            label3.Size = new Size(73, 15);
+            label3.TabIndex = 16;
+            label3.Text = "# of Pictures";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(982, 521);
-            Controls.Add(picFour);
-            Controls.Add(picThree);
-            Controls.Add(picTwo);
-            Controls.Add(picOne);
-            Controls.Add(lblPicFour);
-            Controls.Add(lblPicThree);
-            Controls.Add(lblPicTwo);
-            Controls.Add(lblPicOne);
+            Controls.Add(label3);
+            Controls.Add(udNumPicBoxes);
             Controls.Add(chkAnimate);
             Controls.Add(lblVersion);
             Controls.Add(label2);
@@ -232,10 +150,7 @@
             Name = "Form1";
             Text = "Story Prompt Generator";
             Load += Form1_Load;
-            ((System.ComponentModel.ISupportInitialize)picOne).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picTwo).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picThree).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picFour).EndInit();
+            ((System.ComponentModel.ISupportInitialize)udNumPicBoxes).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -244,18 +159,12 @@
 
         private Button btnRoll;
         private Button btnQuit;
-        private PictureBox picOne;
-        private PictureBox picTwo;
-        private PictureBox picThree;
-        private PictureBox picFour;
         private Button btnShuffle;
         private Label label1;
         private Label label2;
         private Label lblVersion;
         private CheckBox chkAnimate;
-        private Label lblPicOne;
-        private Label lblPicTwo;
-        private Label lblPicThree;
-        private Label lblPicFour;
+        private NumericUpDown udNumPicBoxes;
+        private Label label3;
     }
 }
