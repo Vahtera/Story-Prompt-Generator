@@ -74,14 +74,9 @@ namespace Story_Prompt_Generator
             imgList.Add(Properties.Resources._020);
 
         }
-        private void InitPicBoxes()
+        private void AddBoxes(int num)
         {
-            //pBoxList.Clear();
-            //LabelList.Clear();
-            pBoxHeight = LabelWidth - 2;
-            pBoxWidth = LabelWidth - 2;
-
-            while (pBoxList.Count < udNumPicBoxes.Value)
+            while (pBoxList.Count < num)
             {
                 var pictureBox = new PictureBox();
                 var label = new Label();
@@ -95,6 +90,31 @@ namespace Story_Prompt_Generator
                 Controls.Add(pictureBox);
                 Controls.Add(label);
             }
+        }
+
+        private void RemoveBoxes(int num)
+        {
+            while (pBoxList.Count > num)
+            {
+                var pictureBox = pBoxList[pBoxList.Count - 1];
+                var label = LabelList[LabelList.Count - 1];
+
+                Controls.Remove(pictureBox);
+                Controls.Remove(label);
+
+                pBoxList.RemoveAt(pBoxList.Count - 1);
+                LabelList.RemoveAt(LabelList.Count - 1);
+            }
+        }
+
+        private void InitPicBoxes(int num)
+        {
+            //pBoxList.Clear();
+            //LabelList.Clear();
+            pBoxHeight = LabelWidth - 2;
+            pBoxWidth = LabelWidth - 2;
+
+            AddBoxes(num);
 
             LabelList[0].Top = 72;
             LabelList[0].BackColor = Color.White;
@@ -218,7 +238,7 @@ namespace Story_Prompt_Generator
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            InitPicBoxes();
+            InitPicBoxes((int)udNumPicBoxes.Value);
             SetImages();
             lblVersion.Text = VERSION;
             Size = new Size(854, 319);
@@ -232,7 +252,7 @@ namespace Story_Prompt_Generator
         {
             btnRoll.BackgroundImage?.Dispose();
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_down;
-        }        
+        }
         private async Task ZoomInOut(PictureBox pic, Image img)
         {
             int zoomFactor = 16;
@@ -242,7 +262,7 @@ namespace Story_Prompt_Generator
             int origLeft = pic.Left;
             int origTop = pic.Top;
 
-            
+
 
             // Zoom out
             for (int i = 0; i < zoomFactor; i++)
@@ -276,6 +296,19 @@ namespace Story_Prompt_Generator
         private void btnShuffle_Click(object sender, EventArgs e)
         {
             FlipFlip();
+        }
+
+        private void udNumPicBoxes_ValueChanged(object sender, EventArgs e)
+        {
+            if (udNumPicBoxes.Value > pBoxList.Count)
+            {
+                InitPicBoxes((int)udNumPicBoxes.Value);
+            }
+            else if (udNumPicBoxes.Value < pBoxList.Count)
+            {
+                RemoveBoxes((int)udNumPicBoxes.Value);
+            }
+            SetImages();
         }
     }
 }
