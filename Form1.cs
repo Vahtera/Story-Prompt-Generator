@@ -81,9 +81,6 @@ namespace Story_Prompt_Generator
                 var pictureBox = new PictureBox();
                 var label = new Label();
 
-                pictureBox.Size = new Size(pBoxWidth, pBoxHeight);
-                label.Size = new Size(LabelWidth, LabelHeight);
-
                 pBoxList.Add(pictureBox);
                 LabelList.Add(label);
 
@@ -107,20 +104,22 @@ namespace Story_Prompt_Generator
             }
         }
 
-        private void InitPicBoxes(int num)
+        private void SizeBoxes()
         {
-            //pBoxList.Clear();
-            //LabelList.Clear();
+            LabelWidth = 800 / pBoxList.Count;
+            LabelHeight = LabelWidth;
             pBoxHeight = LabelWidth - 2;
             pBoxWidth = LabelWidth - 2;
-
-            AddBoxes(num);
+            int padding = LabelWidth + 6;
 
             LabelList[0].Top = 72;
             LabelList[0].BackColor = Color.White;
             LabelList[0].Left = 12;
             LabelList[0].FlatStyle = FlatStyle.Flat;
             LabelList[0].BorderStyle = BorderStyle.FixedSingle;
+            LabelList[0].Size = new Size(LabelWidth, LabelHeight);
+
+            pBoxList[0].Size = new Size(pBoxWidth, pBoxHeight);
             pBoxList[0].Top = 73;
             pBoxList[0].Left = 13;
             pBoxList[0].BackColor = Color.White;
@@ -131,14 +130,25 @@ namespace Story_Prompt_Generator
                 LabelList[i].BackColor = Color.White;
                 LabelList[i].Visible = true;
                 LabelList[i].Top = LabelList[i - 1].Top;
-                LabelList[i].Left = LabelList[i - 1].Left + 206;
+                LabelList[i].Left = LabelList[i - 1].Left + padding;
                 LabelList[i].FlatStyle = FlatStyle.Flat;
                 LabelList[i].BorderStyle = BorderStyle.FixedSingle;
+                LabelList[i].Size = new Size(LabelWidth, LabelHeight);
+
                 pBoxList[i].BackColor = Color.White;
                 pBoxList[i].Top = pBoxList[i - 1].Top;
-                pBoxList[i].Left = pBoxList[i - 1].Left + 206;
+                pBoxList[i].Left = pBoxList[i - 1].Left + padding;
                 pBoxList[i].BackgroundImageLayout = ImageLayout.Zoom;
+                pBoxList[i].Size = new Size(pBoxWidth, pBoxHeight);
             }
+            Height = LabelWidth + 120;
+            Width = pBoxList[pBoxList.Count - 1].Left + LabelWidth + 20;
+        }
+
+        private void InitPicBoxes(int num)
+        {
+            AddBoxes(num);
+            SizeBoxes();
         }
 
         private void NullPicBoxes()
@@ -170,7 +180,7 @@ namespace Story_Prompt_Generator
             for (int i = 0; i < images.Count; i++)
             {
                 pBox.Image = null;
-                pBox.Image = images[i];
+                pBox.Image = new Bitmap(images[i], pBox.Size); // Ensure the image is resized to fit the PictureBox
                 await Task.Delay(10);
             }
             pBox.Image = null;
@@ -300,6 +310,8 @@ namespace Story_Prompt_Generator
 
         private void udNumPicBoxes_ValueChanged(object sender, EventArgs e)
         {
+            if (udNumPicBoxes.Value == 0) { udNumPicBoxes.Value = 1; }
+
             if (udNumPicBoxes.Value > pBoxList.Count)
             {
                 InitPicBoxes((int)udNumPicBoxes.Value);
@@ -307,6 +319,7 @@ namespace Story_Prompt_Generator
             else if (udNumPicBoxes.Value < pBoxList.Count)
             {
                 RemoveBoxes((int)udNumPicBoxes.Value);
+                SizeBoxes();
             }
             SetImages();
         }
