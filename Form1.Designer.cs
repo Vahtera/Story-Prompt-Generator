@@ -122,6 +122,7 @@
             udNumPicBoxes.Size = new Size(37, 23);
             udNumPicBoxes.TabIndex = 15;
             udNumPicBoxes.Value = new decimal(new int[] { 4, 0, 0, 0 });
+            udNumPicBoxes.ValueChanged += udNumPicBoxes_ValueChanged;
             // 
             // label3
             // 
