@@ -56,7 +56,7 @@
             // 
             // btnQuit
             // 
-            btnQuit.Location = new Point(751, 43);
+            btnQuit.Location = new Point(337, 41);
             btnQuit.Name = "btnQuit";
             btnQuit.Size = new Size(75, 23);
             btnQuit.TabIndex = 1;
@@ -66,7 +66,7 @@
             // 
             // btnShuffle
             // 
-            btnShuffle.Location = new Point(751, 14);
+            btnShuffle.Location = new Point(337, 12);
             btnShuffle.Name = "btnShuffle";
             btnShuffle.Size = new Size(75, 23);
             btnShuffle.TabIndex = 6;
@@ -78,7 +78,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(228, 12);
+            label1.Location = new Point(418, 14);
             label1.Name = "label1";
             label1.Size = new Size(160, 17);
             label1.TabIndex = 7;
@@ -87,7 +87,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(228, 32);
+            label2.Location = new Point(418, 34);
             label2.Name = "label2";
             label2.Size = new Size(174, 15);
             label2.TabIndex = 8;
@@ -97,7 +97,7 @@
             // 
             lblVersion.AutoSize = true;
             lblVersion.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblVersion.Location = new Point(228, 47);
+            lblVersion.Location = new Point(418, 49);
             lblVersion.Name = "lblVersion";
             lblVersion.Size = new Size(45, 13);
             lblVersion.TabIndex = 9;
@@ -108,7 +108,7 @@
             chkAnimate.AutoSize = true;
             chkAnimate.Checked = true;
             chkAnimate.CheckState = CheckState.Checked;
-            chkAnimate.Location = new Point(636, 18);
+            chkAnimate.Location = new Point(222, 16);
             chkAnimate.Name = "chkAnimate";
             chkAnimate.Size = new Size(109, 19);
             chkAnimate.TabIndex = 10;
@@ -117,7 +117,7 @@
             // 
             // udNumPicBoxes
             // 
-            udNumPicBoxes.Location = new Point(636, 43);
+            udNumPicBoxes.Location = new Point(222, 41);
             udNumPicBoxes.Name = "udNumPicBoxes";
             udNumPicBoxes.Size = new Size(37, 23);
             udNumPicBoxes.TabIndex = 15;
@@ -127,7 +127,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(679, 47);
+            label3.Location = new Point(265, 45);
             label3.Name = "label3";
             label3.Size = new Size(73, 15);
             label3.TabIndex = 16;
@@ -137,7 +137,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(982, 521);
+            ClientSize = new Size(982, 281);
             Controls.Add(label3);
             Controls.Add(udNumPicBoxes);
             Controls.Add(chkAnimate);
