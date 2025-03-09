@@ -93,6 +93,7 @@ namespace Story_Prompt_Generator
         private async void SetImages()
         {
             btnRoll.Enabled = false;
+            btnRoll.BackgroundImage?.Dispose();
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_disabled;
 
             ResetImages();
@@ -103,6 +104,7 @@ namespace Story_Prompt_Generator
                 GetRandomImage(picFour)
             );
             btnRoll.Enabled = true;
+            btnRoll.BackgroundImage?.Dispose();
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_up;
         }
         private void Form1_Load(object sender, EventArgs e)
@@ -117,9 +119,17 @@ namespace Story_Prompt_Generator
         }
         private void btnRoll_MouseDown(object sender, MouseEventArgs e)
         {
+            btnRoll.BackgroundImage?.Dispose();
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_down;
         }
 
+        private void DisposeImages()
+        {
+            picOne.BackgroundImage?.Dispose();
+            picTwo.BackgroundImage?.Dispose();
+            picThree.BackgroundImage?.Dispose();
+            picFour.BackgroundImage?.Dispose();
+        }
         private void btnShuffle_Click(object sender, EventArgs e)
         {
             btnShuffle.Enabled = false;
@@ -139,11 +149,16 @@ namespace Story_Prompt_Generator
 
             if (shuffledimages.Count >= 4)
             {
+                //DisposeImages();
                 picOne.BackgroundImage = shuffledimages[0];
                 picTwo.BackgroundImage = shuffledimages[1];
                 picThree.BackgroundImage = shuffledimages[2];
                 picFour.BackgroundImage = shuffledimages[3];
             }
+            
+            shuffledimages.Clear();
+            pics.Clear();
+
             btnShuffle.Enabled = true;
         }
     }
