@@ -12,6 +12,8 @@
  * Revision 0.3: Added versioning from GitHub commits. 
  * Revision 0.4: Added animation to Shuffle.
  * Revision 0.5: Changed Shuffle animation into a much smoother and better one. 
+ * Revision 0.6: Dynamic allocation of pictureboxes (ability to have more or less than four)
+ * Revision 0.7: Finalized dynamic number of pictures, added color to window.
  * 
  */
 
@@ -25,7 +27,15 @@ namespace Story_Prompt_Generator
     {
         List<Image> images = new List<Image>();
         List<Image> imgList = new List<Image>();
-        string[] REVISION = { "0.5", $"{CommitInfo.CommitCount}" };
+        List<PictureBox> pBoxList = new List<PictureBox>();
+        List<Label> LabelList = new List<Label>();
+
+        int LabelWidth = 200;
+        int LabelHeight = 200;
+        int pBoxWidth;
+        int pBoxHeight;
+
+        string[] REVISION = { "0.7", $"{CommitInfo.CommitCount}" };
         string VERSION => String.Format("Revision {0} Version {1}", REVISION);
 
         public Form1()
@@ -66,15 +76,98 @@ namespace Story_Prompt_Generator
             imgList.Add(Properties.Resources._020);
 
         }
+        private void AddBoxes(int num)
+        {
+            while (pBoxList.Count < num)
+            {
+                var pictureBox = new PictureBox();
+                var label = new Label();
+
+                pBoxList.Add(pictureBox);
+                LabelList.Add(label);
+
+                Controls.Add(pictureBox);
+                Controls.Add(label);
+            }
+        }
+
+        private void RemoveBoxes(int num)
+        {
+            while (pBoxList.Count > num)
+            {
+                var pictureBox = pBoxList[pBoxList.Count - 1];
+                var label = LabelList[LabelList.Count - 1];
+
+                Controls.Remove(pictureBox);
+                Controls.Remove(label);
+
+                pBoxList.RemoveAt(pBoxList.Count - 1);
+                LabelList.RemoveAt(LabelList.Count - 1);
+            }
+        }
+
+        private void SizeBoxes()
+        {
+            LabelWidth = 800 / pBoxList.Count;
+            LabelHeight = LabelWidth;
+            pBoxHeight = LabelWidth - 2;
+            pBoxWidth = LabelWidth - 2;
+            int padding = LabelWidth + 6;
+
+            LabelList[0].Top = 72;
+            LabelList[0].BackColor = Color.White;
+            LabelList[0].Left = 12;
+            LabelList[0].FlatStyle = FlatStyle.Flat;
+            LabelList[0].BorderStyle = BorderStyle.FixedSingle;
+            LabelList[0].Size = new Size(LabelWidth, LabelHeight);
+
+            pBoxList[0].Size = new Size(pBoxWidth, pBoxHeight);
+            pBoxList[0].Top = 73;
+            pBoxList[0].Left = 13;
+            pBoxList[0].BackColor = Color.White;
+            pBoxList[0].BackgroundImageLayout = ImageLayout.Zoom;
+
+            for (int i = 1; i < LabelList.Count; i++)
+            {
+                LabelList[i].BackColor = Color.White;
+                LabelList[i].Visible = true;
+                LabelList[i].Top = LabelList[i - 1].Top;
+                LabelList[i].Left = LabelList[i - 1].Left + padding;
+                LabelList[i].FlatStyle = FlatStyle.Flat;
+                LabelList[i].BorderStyle = BorderStyle.FixedSingle;
+                LabelList[i].Size = new Size(LabelWidth, LabelHeight);
+
+                pBoxList[i].BackColor = Color.White;
+                pBoxList[i].Top = pBoxList[i - 1].Top;
+                pBoxList[i].Left = pBoxList[i - 1].Left + padding;
+                pBoxList[i].BackgroundImageLayout = ImageLayout.Zoom;
+                pBoxList[i].Size = new Size(pBoxWidth, pBoxHeight);
+            }
+            Height = LabelWidth + 120;
+            Width = pBoxList[pBoxList.Count - 1].Left + LabelWidth + 20;
+            pnlImage.Size = new Size(Width - 440, 54);
+        }
+
+        private void InitPicBoxes(int num)
+        {
+            AddBoxes(num);
+            SizeBoxes();
+        }
+
+        private void NullPicBoxes()
+        {
+            for (int i = 0; i < udNumPicBoxes.Value; i++)
+            {
+                pBoxList[i].BackgroundImage = null;
+            }
+        }
         private void ResetImages()
         {
             images.Clear();
             images = images.Concat(imgList).ToList();
 
-            picOne.BackgroundImage = null;
-            picTwo.BackgroundImage = null;
-            picThree.BackgroundImage = null;
-            picFour.BackgroundImage = null;
+            NullPicBoxes();
+
         }
         private async Task GetRandomImage(PictureBox pBox)
         {
@@ -90,7 +183,7 @@ namespace Story_Prompt_Generator
             for (int i = 0; i < images.Count; i++)
             {
                 pBox.Image = null;
-                pBox.Image = images[i];
+                pBox.Image = new Bitmap(images[i], pBox.Size); // Ensure the image is resized to fit the PictureBox
                 await Task.Delay(10);
             }
             pBox.Image = null;
@@ -101,84 +194,70 @@ namespace Story_Prompt_Generator
             List<Image> pics = new List<Image>();
             Random random = new Random();
 
-            if (picOne.BackgroundImage != null)
-                pics.Add(picOne.BackgroundImage);
-            if (picTwo.BackgroundImage != null)
-                pics.Add(picTwo.BackgroundImage);
-            if (picThree.BackgroundImage != null)
-                pics.Add(picThree.BackgroundImage);
-            if (picFour.BackgroundImage != null)
-                pics.Add(picFour.BackgroundImage);
+            for (int i = 0; i < pBoxList.Count; i++)
+            {
+                if (pBoxList[i].BackgroundImage != null) { pics.Add(pBoxList[i].BackgroundImage); }
+            }
 
             var shuffledimages = pics.OrderBy(_ => random.Next()).ToList();
 
-            if (shuffledimages.Count >= 4)
+            if (shuffledimages.Count >= pBoxList.Count)
             {
-
                 if (chkAnimate.Checked)
                 {
-                    await Task.WhenAll(
-                        ZoomInOut(picOne, shuffledimages[0]),
-                        ZoomInOut(picTwo, shuffledimages[1]),
-                        ZoomInOut(picThree, shuffledimages[2]),
-                        ZoomInOut(picFour, shuffledimages[3])
-                    );
+                    var tasks = new List<Task>();
+                    for (int i = 0; i < pBoxList.Count; i++)
+                    {
+                        tasks.Add(ZoomInOut(pBoxList[i], shuffledimages[i]));
+                    }
+                    await Task.WhenAll(tasks);
                 }
                 else
                 {
-                    picOne.BackgroundImage = null;
-                    picTwo.BackgroundImage = null;
-                    picThree.BackgroundImage = null;
-                    picFour.BackgroundImage = null;
-
-                    picOne.BackgroundImage = shuffledimages[0];
-                    picTwo.BackgroundImage = shuffledimages[1];
-                    picThree.BackgroundImage = shuffledimages[2];
-                    picFour.BackgroundImage = shuffledimages[3];
+                    NullPicBoxes();
+                    SetpBoxImage(shuffledimages);
                 }
 
                 shuffledimages.Clear();
                 pics.Clear();
                 btnShuffle.Enabled = true;
             }
-
+        }
+        private void SetpBoxImage(List<Image> imgs)
+        {
+            for (int i = 0; i < imgs.Count; i++)
+            {
+                pBoxList[i].BackgroundImage = imgs[i];
+            }
         }
         private async void SetImages()
         {
             btnRoll.Enabled = false;
+            udNumPicBoxes.Enabled = false;
             btnRoll.BackgroundImage?.Dispose();
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_disabled;
 
             ResetImages();
-            await Task.WhenAll(
-                GetRandomImage(picOne),
-                GetRandomImage(picTwo),
-                GetRandomImage(picThree),
-                GetRandomImage(picFour)
-            );
+
+            var tasks = new List<Task>();
+            for (int i = 0; i < pBoxList.Count; i++)
+            {
+                tasks.Add(GetRandomImage(pBoxList[i]));
+            }
+            await Task.WhenAll(tasks);
+
             btnRoll.Enabled = true;
+            udNumPicBoxes.Enabled = true;
             btnRoll.BackgroundImage?.Dispose();
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_up;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            InitPicBoxes((int)udNumPicBoxes.Value);
             SetImages();
+            label1.BackColor = System.Drawing.Color.Transparent;
             lblVersion.Text = VERSION;
             Size = new Size(854, 319);
-            
-            picOne.Left = lblPicOne.Left + 1;
-            picOne.Top = lblPicOne.Top + 1;
-            picTwo.Left = lblPicTwo.Left + 1;
-            picTwo.Top = lblPicTwo.Top +1;
-            picThree.Left = lblPicThree.Left + 1;
-            picThree.Top = lblPicThree.Top + 1;
-            picFour.Left = lblPicFour.Left + 1;
-            picFour.Top = lblPicFour.Top + 1;
-            picOne.Size = new Size(198, 198);
-            picTwo.Size = new Size(198, 198);
-            picThree.Size = new Size(198, 198);
-            picFour.Size = new Size(198, 198);
-
         }
 
         private void btnRoll_Click(object sender, EventArgs e)
@@ -189,17 +268,6 @@ namespace Story_Prompt_Generator
         {
             btnRoll.BackgroundImage?.Dispose();
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_down;
-        }        
-        private void DisposeImage(Image image)
-        {
-            try
-            {
-                image?.Dispose();
-            }
-            catch (ObjectDisposedException)
-            {
-                // Log or handle the exception if needed
-            }
         }
         private async Task ZoomInOut(PictureBox pic, Image img)
         {
@@ -210,7 +278,11 @@ namespace Story_Prompt_Generator
             int origLeft = pic.Left;
             int origTop = pic.Top;
 
-            
+            if (pBoxList.Count > 5)
+            {
+                zoomFactor = 8; // Reduce zoom factor
+                speed = 5; // Reduce speed
+            }
 
             // Zoom out
             for (int i = 0; i < zoomFactor; i++)
@@ -244,6 +316,27 @@ namespace Story_Prompt_Generator
         private void btnShuffle_Click(object sender, EventArgs e)
         {
             FlipFlip();
+        }
+
+        private void udNumPicBoxes_ValueChanged(object sender, EventArgs e)
+        {
+            if (udNumPicBoxes.Value == 0) { udNumPicBoxes.Value = 1; }
+
+            if (udNumPicBoxes.Value > pBoxList.Count)
+            {
+                InitPicBoxes((int)udNumPicBoxes.Value);
+            }
+            else if (udNumPicBoxes.Value < pBoxList.Count)
+            {
+                RemoveBoxes((int)udNumPicBoxes.Value);
+                SizeBoxes();
+            }
+            SetImages();
+        }
+
+        private void Form1_ResizeEnd(object sender, EventArgs e)
+        {
+            
         }
     }
 }
