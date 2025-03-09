@@ -8,6 +8,7 @@
  * Version 0.1: Initial version
  * Version 0.2: Added "rolling" animation when randomizing results.
  * Version 0.2.1: Disabled roll button while animations are running to prevent double.images.
+ * Version 0.3: Added disposing of images and fixed memory leak by initiating main images list only once.
  * 
  */
 
@@ -20,7 +21,7 @@ namespace Story_Prompt_Generator
     {
         List<Image> images = new List<Image>();
         List<Image> imgList = new List<Image>();
-        string VERSION = "0.2.1";
+        string VERSION = "0.3";
 
         public Form1()
         {
