@@ -12,6 +12,7 @@
  * Revision 0.3: Added versioning from GitHub commits. 
  * Revision 0.4: Added animation to Shuffle.
  * Revision 0.5: Changed Shuffle animation into a much smoother and better one. 
+ * Revision 0.6: Dynamic allocation of pictureboxes (ability to have more or less than four)
  * 
  */
 
@@ -33,7 +34,7 @@ namespace Story_Prompt_Generator
         int pBoxWidth;
         int pBoxHeight;
 
-        string[] REVISION = { "0.5", $"{CommitInfo.CommitCount}" };
+        string[] REVISION = { "0.6", $"{CommitInfo.CommitCount}" };
         string VERSION => String.Format("Revision {0} Version {1}", REVISION);
 
         public Form1()
@@ -274,7 +275,11 @@ namespace Story_Prompt_Generator
             int origLeft = pic.Left;
             int origTop = pic.Top;
 
-
+            if (pBoxList.Count > 5)
+            {
+                zoomFactor = 8; // Reduce zoom factor
+                speed = 5; // Reduce speed
+            }
 
             // Zoom out
             for (int i = 0; i < zoomFactor; i++)
