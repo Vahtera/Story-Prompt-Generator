@@ -263,6 +263,16 @@ namespace Story_Prompt_Generator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap background {
+            get {
+                object obj = ResourceManager.GetObject("background", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap btnRandomize_disabled {
             get {
                 object obj = ResourceManager.GetObject("btnRandomize_disabled", resourceCulture);
@@ -286,6 +296,16 @@ namespace Story_Prompt_Generator.Properties {
         internal static System.Drawing.Bitmap btnRandomize_up {
             get {
                 object obj = ResourceManager.GetObject("btnRandomize_up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap strip3 {
+            get {
+                object obj = ResourceManager.GetObject("strip3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
