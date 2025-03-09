@@ -75,7 +75,6 @@ namespace Story_Prompt_Generator
             picTwo.BackgroundImage = null;
             picThree.BackgroundImage = null;
             picFour.BackgroundImage = null;
-
         }
         private async Task GetRandomImage(PictureBox pBox)
         {
