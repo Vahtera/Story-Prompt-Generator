@@ -57,7 +57,6 @@
             btnRoll.UseVisualStyleBackColor = true;
             btnRoll.Click += btnRoll_Click;
             btnRoll.MouseDown += btnRoll_MouseDown;
-            btnRoll.MouseUp += btnRoll_MouseUp;
             // 
             // btnQuit
             // 
@@ -129,7 +128,6 @@
             label1.Size = new Size(160, 17);
             label1.TabIndex = 7;
             label1.Text = "Story Prompt Generator";
-            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -139,7 +137,6 @@
             label2.Size = new Size(174, 15);
             label2.TabIndex = 8;
             label2.Text = "Copyright © 2025 Anna Vahtera";
-            label2.Click += label2_Click;
             // 
             // lblVersion
             // 
@@ -182,7 +179,6 @@
             Name = "Form1";
             Text = "Story Prompt Generator";
             Load += Form1_Load;
-            MouseDown += Form1_MouseDown;
             ((System.ComponentModel.ISupportInitialize)picOne).EndInit();
             ((System.ComponentModel.ISupportInitialize)picTwo).EndInit();
             ((System.ComponentModel.ISupportInitialize)picThree).EndInit();

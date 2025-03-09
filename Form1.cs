@@ -19,11 +19,13 @@ namespace Story_Prompt_Generator
     public partial class Form1 : Form
     {
         List<Image> images = new List<Image>();
+        List<Image> imgList = new List<Image>();
         string VERSION = "0.2.1";
 
         public Form1()
         {
             InitializeComponent();
+            InitImages();
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -33,29 +35,35 @@ namespace Story_Prompt_Generator
         {
             Application.Exit();
         }
+        private void InitImages()
+        {
+            imgList.Clear();
+            imgList.Add(Properties.Resources._001);
+            imgList.Add(Properties.Resources._002);
+            imgList.Add(Properties.Resources._003);
+            imgList.Add(Properties.Resources._004);
+            imgList.Add(Properties.Resources._005);
+            imgList.Add(Properties.Resources._006);
+            imgList.Add(Properties.Resources._007);
+            imgList.Add(Properties.Resources._008);
+            imgList.Add(Properties.Resources._009);
+            imgList.Add(Properties.Resources._010);
+            imgList.Add(Properties.Resources._011);
+            imgList.Add(Properties.Resources._012);
+            imgList.Add(Properties.Resources._013);
+            imgList.Add(Properties.Resources._014);
+            imgList.Add(Properties.Resources._015);
+            imgList.Add(Properties.Resources._016);
+            imgList.Add(Properties.Resources._017);
+            imgList.Add(Properties.Resources._018);
+            imgList.Add(Properties.Resources._019);
+            imgList.Add(Properties.Resources._020);
+
+        }
         private void ResetImages()
         {
             images.Clear();
-            images.Add(Properties.Resources._001);
-            images.Add(Properties.Resources._002);
-            images.Add(Properties.Resources._003);
-            images.Add(Properties.Resources._004);
-            images.Add(Properties.Resources._005);
-            images.Add(Properties.Resources._006);
-            images.Add(Properties.Resources._007);
-            images.Add(Properties.Resources._008);
-            images.Add(Properties.Resources._009);
-            images.Add(Properties.Resources._010);
-            images.Add(Properties.Resources._011);
-            images.Add(Properties.Resources._012);
-            images.Add(Properties.Resources._013);
-            images.Add(Properties.Resources._014);
-            images.Add(Properties.Resources._015);
-            images.Add(Properties.Resources._016);
-            images.Add(Properties.Resources._017);
-            images.Add(Properties.Resources._018);
-            images.Add(Properties.Resources._019);
-            images.Add(Properties.Resources._020);
+            images = images.Concat(imgList).ToList();
 
             picOne.BackgroundImage = null;
             picTwo.BackgroundImage = null;
@@ -107,17 +115,6 @@ namespace Story_Prompt_Generator
         {
             SetImages();
         }
-
-        private void Form1_MouseDown(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void btnRoll_MouseUp(object sender, MouseEventArgs e)
-        {
-            //btnRoll.BackgroundImage = Properties.Resources.btnRandomize_up;
-        }
-
         private void btnRoll_MouseDown(object sender, MouseEventArgs e)
         {
             btnRoll.BackgroundImage = Properties.Resources.btnRandomize_down;
@@ -148,16 +145,6 @@ namespace Story_Prompt_Generator
                 picFour.BackgroundImage = shuffledimages[3];
             }
             btnShuffle.Enabled = true;
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
